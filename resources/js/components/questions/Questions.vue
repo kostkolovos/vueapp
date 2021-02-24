@@ -92,7 +92,10 @@ export const questionModal = {
     title: '',
     id: '',
     question: '',
-    question_category: ''
+    question_category: {
+        id: '',
+        title: ''
+    }
 }
 
 </script>

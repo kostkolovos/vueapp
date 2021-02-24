@@ -32,8 +32,7 @@ export default {
     props: {
         question: {
             type: Object,
-            required: false,
-            default: questionModal
+            required: true
         },
         modalTitle: {
             type: String,
@@ -90,13 +89,6 @@ export default {
         }
     }
 
-}
-
-export const questionModal = {
-    title: '',
-    id: '',
-    question: '',
-    question_category: ''
 }
 
 </script>

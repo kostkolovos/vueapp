@@ -3,6 +3,7 @@
         v-model="showModal"
         ref="modal"
         :title="modalTitle"
+        @close="onClose"
         @hide="preventHide"
         @hidden="resetModal"
         ok-title="Submit"
@@ -27,23 +28,27 @@
 <script>
 export default {
     name: "AddQuestion",
+    props: {
+        question: {
+            type: Object,
+            required: false,
+            default: questionModal
+        },
+        modalTitle: {
+            type: String,
+            required: true
+        },
+        showModal: {
+            type: Boolean,
+            default: false
+        },
+    },
     data() {
         return {
-            question: questionModal,
-            modalTitle: 'Add Question',
-            showModal: false,
             questionCategoryOptions: {
                 type: Array
             }
         }
-    },
-    mounted() {
-        this.$root.$on("modifyQuestion", data => {
-            this.modalTitle = data[0].modalTitle;
-            this.question = data[0].question;
-            this.showModal = !this.showModal
-            this.questionCategoryOptions = this.fetchQuestionCategoriesOptions();
-        })
     },
     methods: {
         submitAction: function () {
@@ -56,11 +61,17 @@ export default {
             }
         },
         resetModal() {
-            this.question = questionModal
+            this.question = questionModal;
         },
         preventHide(e) {
-            if (e.trigger === "backdrop")
+            if (e.trigger === "backdrop") {
                 e.preventDefault();
+                this.$root.$emit("modifyQuestionShowModalClosed");
+            }
+        },
+        onClose(e) {
+            e.preventDefault();
+            this.$root.$emit("modifyQuestionShowModalClosed");
         },
         fetchQuestionCategoriesOptions() {
             let questionCategories = [];

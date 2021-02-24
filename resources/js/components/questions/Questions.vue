@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <modify-question></modify-question>
+                <modify-question :showModal="showModal" :question="question" :modalTitle="modalTitle"></modify-question>
 
                 <!-- Card -->
                 <div class="card" v-for="question in questionComputed" v-bind:id="question.id">
@@ -44,7 +44,8 @@ export default {
         return {
             questionProperty: this.questions,
             question: questionModal,
-            modalTitle: 'Add Question'
+            modalTitle: 'Add Question',
+            showModal: false
         }
     },
     computed: {
@@ -56,6 +57,9 @@ export default {
                 this.questionProperty = question;
             }
         }
+    },
+    mounted() {
+        this.$root.$on("modifyQuestionShowModalClosed", data => this.showModal = false)
     },
     methods: {
         deleteAction: function (id) {
@@ -76,17 +80,16 @@ export default {
                 this.question = questionModal;
                 this.modalTitle = 'Add Question'
             }
-            this.$root.$emit("modifyQuestion", [{
-                'question': this.question,
-                'modalTitle': this.modalTitle
-            }]);
+            this.showModal = true
         }
     }
 }
 
 export const questionModal = {
     title: '',
-    id: ''
+    id: '',
+    question: '',
+    question_category: ''
 }
 
 </script>

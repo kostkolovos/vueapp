@@ -64,7 +64,7 @@ export default {
             this.preventAction(e);
         },
         preventHide(e) {
-            if (e.trigger === "backdrop") {
+            if (['backdrop', 'esc'].includes(e.trigger)) {
                 this.preventAction(e);
             }
         },

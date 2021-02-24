@@ -59,7 +59,10 @@ export default {
         }
     },
     mounted() {
-        this.$root.$on("modifyQuestionShowModalClosed", data => this.showModal = false)
+        this.$root.$on("modifyQuestionShowModalClosed", data => {
+            this.showModal = false;
+            this.fetchQuestion();
+        })
     },
     methods: {
         deleteAction: function (id) {

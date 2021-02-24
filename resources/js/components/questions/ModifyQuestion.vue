@@ -3,9 +3,10 @@
         v-model="showModal"
         ref="modal"
         :title="modalTitle"
-        @close="onClose"
+        @show="showModalAction"
+        @close="preventAction"
         @hide="preventHide"
-        @hidden="resetModal"
+        @cancel="preventAction"
         ok-title="Submit"
         @ok="submitAction">
         <b-form @submit="submitAction">
@@ -51,27 +52,25 @@ export default {
         }
     },
     methods: {
-        submitAction: function () {
+        submitAction(e) {
             if (this.question.id) {
                 axios.patch('question/edit', this.question).then(response => {
+                    this.preventAction(e);
                 });
             } else {
                 axios.post('question/new', this.question).then(response => {
+                    this.preventAction(e);
                 });
             }
-        },
-        resetModal() {
-            this.question = questionModal;
+            this.preventAction(e);
         },
         preventHide(e) {
             if (e.trigger === "backdrop") {
-                e.preventDefault();
-                this.$root.$emit("modifyQuestionShowModalClosed");
+                this.preventAction(e);
             }
         },
-        onClose(e) {
-            e.preventDefault();
-            this.$root.$emit("modifyQuestionShowModalClosed");
+        showModalAction() {
+            this.questionCategoryOptions = this.fetchQuestionCategoriesOptions();
         },
         fetchQuestionCategoriesOptions() {
             let questionCategories = [];
@@ -84,6 +83,10 @@ export default {
                 })
             });
             return questionCategories;
+        },
+        preventAction(e) {
+            e.preventDefault();
+            this.$root.$emit("modifyQuestionShowModalClosed");
         }
     }
 

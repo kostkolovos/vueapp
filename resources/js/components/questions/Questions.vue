@@ -43,7 +43,7 @@ export default {
     data: function () {
         return {
             questionProperty: this.questions,
-            question: questionModal,
+            question: undefined,
             modalTitle: 'Add Question',
             showModal: false
         }
@@ -80,21 +80,11 @@ export default {
                 this.question = question;
                 this.modalTitle = 'Edit Question'
             } else {
-                this.question = questionModal;
+                this.question = undefined;
                 this.modalTitle = 'Add Question'
             }
             this.showModal = true
         }
-    }
-}
-
-export const questionModal = {
-    title: '',
-    id: '',
-    question: '',
-    question_category: {
-        id: '',
-        title: ''
     }
 }
 

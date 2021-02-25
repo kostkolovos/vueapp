@@ -18,7 +18,8 @@ class Question extends Model
     protected $fillable = [
         'title',
         'question',
-        'question_category_id'
+        'question_category_id',
+        'user_id'
     ];
 
     /**
@@ -31,6 +32,7 @@ class Question extends Model
         'title' => 'string',
         'question' => 'string',
         'question_category_id' => 'integer',
+        'user_id' => 'integer'
     ];
 
     /**
@@ -52,5 +54,13 @@ class Question extends Model
     public function questionCategory(): BelongsTo
     {
         return $this->belongsTo(QuestionCategory::class);
+    }
+
+    /**
+     * @return BelongsTo
+     **/
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

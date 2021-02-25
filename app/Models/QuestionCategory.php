@@ -36,6 +36,12 @@ class QuestionCategory extends Model
      */
     protected $table = 'question_category';
 
+    /*
+       |--------------------------------------------------------------------------
+       | One to Many Relationships
+       |--------------------------------------------------------------------------
+    */
+
     /**
      * @return HasMany
      **/

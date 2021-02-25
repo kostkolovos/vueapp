@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Question;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Question extends Controller
 {
@@ -51,7 +52,8 @@ class Question extends Controller
         return \App\Models\Question::create([
             'title' => $request->get('title'),
             'question' => $request->get('question'),
-            'question_category_id' => $request->get('question_category')['id']
+            'question_category_id' => $request->get('question_category')['id'],
+            'user_id' => \Auth::user()->id
         ]);
     }
 

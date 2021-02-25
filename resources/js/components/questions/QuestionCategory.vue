@@ -12,6 +12,9 @@
                     </div>
                 </div>
 
+                <modify-question :showModal="showModal" :question="question" :modalTitle="modalTitle"></modify-question>
+
+
                 <!-- Modal -->
                 <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -47,9 +50,21 @@
                             {{ question.title }}
                         </div>
                     </div>
-                    <div class="card-footer text-muted">
-                        <button class="btn btn-primary" v-on:click="populateForm(questionCategory)">Edit</button>
-                        <button class="btn btn-danger float-right" v-on:click="deleteAction(questionCategory.id)">Delete</button>
+                    <div class="card-footer container text-muted">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" v-on:click="populateForm(questionCategory)">Edit</button>
+
+                            </div>
+                            <div class="col-md-4 d-flex justify-content-center">
+                                <button class="btn btn-success" v-on:click="populateModal(questionCategory)">Add Question</button>
+
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-danger float-right" v-on:click="deleteAction(questionCategory.id)">Delete</button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
                 <!-- Card -->
@@ -71,7 +86,10 @@ export default {
         return {
             questionCategoryProperty: this.question_categories,
             questionCategory: questionCategoryModal,
-            modalTitle: 'Add Category'
+            modalTitle: 'Add Category',
+            modalQuestionTitle: 'Add Question',
+            showModal: false,
+            question: undefined
         }
     },
     computed: {
@@ -83,6 +101,12 @@ export default {
                 this.questionCategoryProperty = questionCategory;
             }
         }
+    },
+    mounted() {
+        this.$root.$on("modifyQuestionShowModalClosed", data => {
+            this.showModal = false;
+            this.fetchQuestionCategories();
+        })
     },
     methods: {
         deleteAction: function (id) {
@@ -116,6 +140,15 @@ export default {
                 this.modalTitle = 'Add Category'
             }
             $('#formModal').modal('toggle');
+        },
+        populateModal: function (questionCategory) {
+            this.question = {
+                title: '',
+                id: '',
+                question: '',
+                question_category: questionCategory
+            };
+            this.showModal = true
         }
     }
 }
